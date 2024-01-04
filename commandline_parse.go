@@ -35,6 +35,7 @@ var (
 	pushDOnly				*bool
 	forceAllHandshakes		*bool
 	feedZGrab				*bool
+	feedZGrabT				*bool
 	workers					*int
 	timeout					*int
 	retransmitSec			*int
@@ -60,6 +61,7 @@ type options struct {
 	PushDOnly			bool
 	ForceAllHandshakes	bool
 	FeedZGrab			bool
+	FeedZGrabT			bool
 	Workers				int
 	Timeout				int
 	RetransmitSec		int
@@ -85,6 +87,7 @@ func init() {
   pushDOnly = flag.Bool("pushDataOnly", false, "Don't attach data to ack but rather to push only")
   forceAllHandshakes = flag.Bool("forceAllHandshakes", false, "Complete all handshakes even if data is returned early on. This also turns off HyperACKtive filtering.")
   feedZGrab = flag.Bool("feedZGrab", false, "send to zgrab ip and fingerprint")
+  feedZGrabT = flag.Bool("feedZGrabT", false, "send to zgrab ip and fingerprint-port for easier use of the ZGrab Trigger function")
   workers = flag.Int("w", 1 , "number of worker threads for each channel")
   timeout = flag.Int("t", 5, "number of seconds to wait in timeout queue for last retransmission")
   retransmitSec = flag.Int("rt", 1 , "number of seconds until re-transmitting packet")
@@ -143,6 +146,7 @@ func Parse() (*options,bool) {
 		Mac: *mac,
 		Haf: *haf,
 		FeedZGrab: *feedZGrab,
+		FeedZGrabT: *feedZGrabT,
 		PushDOnly: *pushDOnly,
 		ForceAllHandshakes: *forceAllHandshakes,
 		Workers: *workers,
@@ -203,6 +207,9 @@ func Parse() (*options,bool) {
 	if *feedZGrab {
 		fmt.Fprintln(os.Stderr,"++Feeding ZGrab with fingerprints")
 	}
+	if *feedZGrabT {
+		fmt.Fprintln(os.Stderr,"++Feeding ZGrab with fingerprints-ports")
+	}
 	if *pushDOnly {
 		fmt.Fprintln(os.Stderr,"++Sending Data only with Push Flag (not in ack)")
 	}
@@ -230,6 +237,10 @@ func RecordOnlyData() bool {
 
 func FeedZGrab() bool {
 	return *feedZGrab
+}
+
+func feedZGrabT() bool {
+	return *feedZGrabT
 }
 
 func HyperACKtiveFiltering() bool {

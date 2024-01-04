@@ -64,6 +64,8 @@ Usage of ./lzr:
     	json results output file name (default "default_20210227212802.json")
   -feedZGrab
     	send to zgrab ip and fingerprint
+  -feedZGrabT
+    	send to zgrab ip and fingerprint-port for easier use of the ZGrab Trigger function
   -forceAllHandshakes
     	Complete all handshakes even if data is returned early on. This also turns off HyperACKtive filtering.
   -gatewayMac string

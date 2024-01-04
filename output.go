@@ -98,6 +98,12 @@ func ( f *output_file ) Record( packet *packet_metadata, handshakes []string ) {
 		}
 	}
 
+	if FeedZGrabT() {
+		if packet.Fingerprint != "" {
+			fmt.Println( packet.Saddr + ", ," + packet.Fingerprint + "-" + packet.Sport)
+		}
+	}
+
 	addToSummary( packet )
 
 	out, _ := json.Marshal( packet )
