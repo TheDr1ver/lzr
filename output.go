@@ -21,6 +21,7 @@ import (
 	"os"
 	"bufio"
 	"time"
+	"strconv"
 	"fmt"
 )
 
@@ -100,7 +101,8 @@ func ( f *output_file ) Record( packet *packet_metadata, handshakes []string ) {
 
 	if FeedZGrabT() {
 		if packet.Fingerprint != "" {
-			fmt.Println( packet.Saddr + ", ," + packet.Fingerprint + "-" + packet.Sport)
+			port = strconv.Iota(packet.Sport)
+			fmt.Println( packet.Saddr + ", ," + packet.Fingerprint + "-" + port)
 		}
 	}
 
